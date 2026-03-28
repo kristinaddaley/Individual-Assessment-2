@@ -1,0 +1,64 @@
+<!--
+Full Name: Kristina Daley
+Student ID#: 2405428
+Occurrence: Wednesday 8:00 am - 10:00 am
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>InkWave Tees — Login</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="brand"><div class="logo">IW</div><div><div style="font-weight:700">InkWave Tees</div></div></div>
+      <nav class="nav"><a href="../index.html">Home</a><a href="register.html">Register</a><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>Login</h2>
+    <form id="login-form" novalidate>
+      <div class="input-group">
+        <label for="login-username">Username or Email</label>
+        <input id="login-username" name="username" type="text" required />
+      </div>
+      <div class="input-group">
+        <label for="login-password">Password</label>
+        <input id="login-password" name="password" type="password" required />
+      </div>
+      <div id="login-error" class="small" aria-live="polite" style="color:crimson"></div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn--accent">Login</button>
+        <a class="btn btn--ghost" href="register.html">Create account</a>
+      </div>
+    </form>
+  </main>
+
+  <footer class="footer"><div class="container">© InkWave Tees• All rights reserved</div></footer>
+
+  <script src="script.js"></script>
+  <script>
+    // event binding
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value.trim();
+      const err = document.getElementById('login-error');
+      // Simple validation (IA2 - JS: Form Validation)
+      if(!username || !password){
+        err.textContent = 'Please enter both username and password.';
+        return;
+      }
+      //store logged-in username in sessionStorage
+      sessionStorage.setItem('iw_user', username);
+      err.style.color = 'green';
+      err.textContent = 'Login successful. Redirecting to home...';
+      setTimeout(()=> location.href='index.html', 900);
+    });
+  </script>
+</body>
+</html>

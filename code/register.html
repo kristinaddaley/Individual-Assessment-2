@@ -1,0 +1,85 @@
+<!--
+Full Name: Kristina Daley
+Student ID#: 2405428
+Occurrence: Wednesday 8:00 am - 10:00 am
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>InkWave Tees — Register</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="brand"><div class="logo">IW</div><div><div style="font-weight:700">InkWave Tees</div></div></div>
+      <nav class="nav"><a href="../index.html">Home</a><a href="login.html">Login</a><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>Register</h2>
+    <form id="register-form" novalidate>
+      <div class="input-group">
+        <label for="full-name">Full Name</label>
+        <input id="full-name" type="text" required />
+      </div>
+      <div class="input-group">
+        <label for="dob">Date of Birth</label>
+        <input id="dob" type="date" required />
+      </div>
+      <div class="input-group">
+        <label for="reg-email">Email</label>
+        <input id="reg-email" type="email" required />
+      </div>
+      <div class="input-group">
+        <label for="reg-username">Username</label>
+        <input id="reg-username" type="text" required />
+      </div>
+      <div class="input-group">
+        <label for="reg-password">Password</label>
+        <input id="reg-password" type="password" required minlength="6" />
+      </div>
+      <div id="reg-error" class="small" style="color:crimson"></div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn--accent">Register</button>
+        <a class="btn btn--ghost" href="login.html">Already have account</a>
+      </div>
+    </form>
+  </main>
+
+  <footer class="footer"><div class="container">© InkWave Tees• All rights reserved
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('register-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('full-name').value.trim();
+      const dob = document.getElementById('dob').value;
+      const email = document.getElementById('reg-email').value.trim();
+      const username = document.getElementById('reg-username').value.trim();
+      const password = document.getElementById('reg-password').value;
+      const err = document.getElementById('reg-error');
+
+      // validation (JS: Validate required fields, email format)
+      if(!name || !dob || !email || !username || !password){
+        err.textContent = 'All fields are required.';
+        return;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailRegex.test(email)){
+        err.textContent = 'Please enter a valid email address.';
+        return;
+      }
+      
+      const user = {name, dob, email, username};
+      localStorage.setItem('iw_user_' + username, JSON.stringify(user));
+      err.style.color = 'green';
+      err.textContent = 'Registration saved. Redirecting to login...';
+      setTimeout(()=> location.href='login.html', 900);
+    });
+  </script>
+</body>
+</html>

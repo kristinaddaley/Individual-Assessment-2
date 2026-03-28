@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>InkWave Tees — Checkout</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="brand"><div class="logo">IW</div><div><div style="font-weight:700">InkWave Tees</div></div></div>
+      <nav class="nav"><a href="../index.html">Home</a><a href="cart.html">Cart</a><a href="login.html">Login</a></nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>Checkout</h2>
+
+    <section id="summary">
+      <!-- summary injected -->
+    </section>
+
+    <form id="checkout-form" novalidate>
+      <h3>Shipping Details</h3>
+      <div class="input-group">
+        <label for="ship-name">Full Name</label>
+        <input id="ship-name" required />
+      </div>
+      <div class="input-group">
+        <label for="ship-address">Address</label>
+        <textarea id="ship-address" rows="2" required></textarea>
+      </div>
+      <div class="input-group">
+        <label for="ship-email">Email</label>
+        <input id="ship-email" type="email" required />
+      </div>
+      <div class="input-group">
+        <label for="ship-amount">Amount to Pay (USD)</label>
+        <input id="ship-amount" type="number" step="0.01" required />
+      </div>
+      <div id="checkout-error" class="small" style="color:crimson"></div>
+
+      <div class="form-actions">
+        <button id="confirm-btn" class="btn btn--accent" type="submit">Confirm</button>
+        <button id="cancel-btn" class="btn btn--ghost" type="button">Cancel</button>
+        <button id="close-btn" class="btn btn--ghost" type="button">Close</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="footer"><div class="container">© InkWave Tees</div></footer>
+
+  <script src="script.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', ()=>{
+      renderCheckoutSummary();
+      // Cancel clears cart and goes home
+      document.getElementById('cancel-btn').addEventListener('click', ()=>{
+        if(confirm('Cancel order and clear cart?')){
+          clearCart();
+          location.href='index.html';
+        }
+      });
+      document.getElementById('close-btn').addEventListener('click', ()=> {
+        // Close returns to cart
+        location.href='cart.html';
+      });
+
+      document.getElementById('checkout-form').addEventListener('submit', (e)=> {
+        e.preventDefault();
+        const name = document.getElementById('ship-name').value.trim();
+        const address = document.getElementById('ship-address').value.trim();
+        const email = document.getElementById('ship-email').value.trim();
+        const amount = parseFloat(document.getElementById('ship-amount').value);
+        const error = document.getElementById('checkout-error');
+
+        if(!name || !address || !email || isNaN(amount) || amount <= 0){
+          error.textContent = 'Please complete all fields with valid values.';
+          return;
+        }
+        //payment check (amount >= total)
+        const totals = calculateCartTotals();
+        if(amount < totals.total){
+          error.textContent = 'Payment amount is less than total. Please enter full amount.';
+          return;
+        }
+        // Simulate success
+        clearCart();
+        alert('Order confirmed! Thank you for your purchase.');
+        location.href='index.html';
+      });
+    });
+  </script>
+</body>
+</html>
